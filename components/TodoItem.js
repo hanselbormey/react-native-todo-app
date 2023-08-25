@@ -2,16 +2,29 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import theme from '../theme';
+import { isToday } from '../utils/helpers';
 
 export default function TodoItem(props) {
   return (
     <View style={styles.container}>
-      <Checkbox
-        color={theme.colors.primary}
-        style={styles.checkbox}
-        value={props.isCompleted}
-        onValueChange={(event) => props.onCheck(props.id, event)}
-      />
+      {isToday(new Date(props.date)) ? (
+        <Checkbox
+          color={theme.colors.primary}
+          style={styles.checkbox}
+          value={props.isCompleted}
+          onValueChange={(event) => props.onCheck(props.id, event)}
+        />
+      ) : (
+        <View
+          style={{
+            width: 12,
+            height: 12,
+            backgroundColor: theme.colors.primary,
+            borderRadius: 10,
+          }}
+        ></View>
+      )}
+
       <View style={styles.textContainer}>
         <Text
           style={
