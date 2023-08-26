@@ -52,7 +52,6 @@ export default function TodoItem(props) {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
-    backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
   },
