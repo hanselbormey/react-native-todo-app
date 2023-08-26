@@ -1,5 +1,9 @@
 import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
+
 import TodoList from '../components/TodoList';
 import theme from '../theme';
 import { TODOS } from '../utils/mockData';
@@ -12,13 +16,23 @@ export default function HomeScreen() {
   const [todayTodos, setTodayTodos] = React.useState();
   const [upcomingTodos, setUpcomingTodos] = React.useState();
 
+  const navigation = useNavigation();
+
   React.useEffect(() => {
-    setData(TODOS.sort((a, b) => a.isCompleted - b.isCompleted));
+    setData(TODOS);
   }, []);
 
   React.useEffect(() => {
-    setTodayTodos(data?.filter((item) => isToday(new Date(item.date))));
-    setUpcomingTodos(data?.filter((item) => !isToday(new Date(item.date))));
+    setTodayTodos(
+      data
+        ?.filter((item) => isToday(new Date(item.date)))
+        .sort((a, b) => a.isCompleted - b.isCompleted)
+    );
+    setUpcomingTodos(
+      data
+        ?.filter((item) => !isToday(new Date(item.date)))
+        .sort((a, b) => a.isCompleted - b.isCompleted)
+    );
   }, [data]);
 
   const handleCheck = (id, event) => {
@@ -54,6 +68,13 @@ export default function HomeScreen() {
       <TodoList data={todayTodos} onCheck={handleCheck} />
       <Text style={styles.title}>Upcoming</Text>
       <TodoList data={upcomingTodos} onCheck={handleCheck} />
+      <TouchableOpacity
+        style={styles.addBtnContainer}
+        onPress={() => navigation.navigate('Add')}
+      >
+        <AntDesign name="pluscircle" size={38} color="black" />
+      </TouchableOpacity>
+      <StatusBar style="auto" />
     </View>
   );
 }
@@ -83,5 +104,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 24,
+  },
+  addBtn: {
+    backgroundColor: theme.colors.primary,
+    width: 34,
+    height: 34,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addBtnContainer: {
+    flexDirection: 'row-reverse',
+    bottom: 14,
   },
 });
