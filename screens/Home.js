@@ -8,9 +8,9 @@ import TodoList from '../components/TodoList';
 import theme from '../theme';
 import { TODOS } from '../utils/mockData';
 import { isToday } from '../utils/helpers';
+import useGetTodos from '../hooks/useGetTodos';
 
 export default function HomeScreen() {
-  const [data, setData] = React.useState([]);
   const [isHidden, setIsHidden] = React.useState(false);
 
   const [todayTodos, setTodayTodos] = React.useState();
@@ -18,19 +18,17 @@ export default function HomeScreen() {
 
   const navigation = useNavigation();
 
-  React.useEffect(() => {
-    setData(TODOS);
-  }, []);
+  const { todos: data } = useGetTodos();
 
   React.useEffect(() => {
     setTodayTodos(
       data
-        ?.filter((item) => isToday(new Date(item.date)))
+        ?.filter((item) => isToday(item.date))
         .sort((a, b) => a.isCompleted - b.isCompleted)
     );
     setUpcomingTodos(
       data
-        ?.filter((item) => !isToday(new Date(item.date)))
+        ?.filter((item) => !isToday(item.date))
         .sort((a, b) => a.isCompleted - b.isCompleted)
     );
   }, [data]);
