@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
+
 import theme from '../theme';
 import { isToday } from '../utils/helpers';
 
 export default function TodoItem(props) {
   return (
     <View style={styles.container}>
-      {isToday(new Date(props.date)) ? (
+      {isToday(props.date) ? (
         <Checkbox
           color={theme.colors.primary}
           style={styles.checkbox}
@@ -42,7 +43,7 @@ export default function TodoItem(props) {
               : styles.subheading
           }
         >
-          {props.date}
+          {props.date.toString()}
         </Text>
       </View>
     </View>
