@@ -3,12 +3,13 @@ import { StatusBar } from 'expo-status-bar';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+import { doc, updateDoc } from 'firebase/firestore';
 
 import TodoList from '../components/TodoList';
 import theme from '../theme';
-import { TODOS } from '../utils/mockData';
-import { isToday } from '../utils/helpers';
+import { getTodayTodos, getUpcomingTodos, isToday } from '../utils/helpers';
 import useGetTodos from '../hooks/useGetTodos';
+import db from '../lib/firebase';
 
 export default function HomeScreen() {
   const [isHidden, setIsHidden] = React.useState(false);
@@ -21,34 +22,25 @@ export default function HomeScreen() {
   const { todos: data } = useGetTodos();
 
   React.useEffect(() => {
-    setTodayTodos(
-      data
-        ?.filter((item) => isToday(item.date))
-        .sort((a, b) => a.isCompleted - b.isCompleted)
-    );
-    setUpcomingTodos(
-      data
-        ?.filter((item) => !isToday(item.date))
-        .sort((a, b) => a.isCompleted - b.isCompleted)
-    );
+    setTodayTodos(getTodayTodos(data));
+    setUpcomingTodos(getUpcomingTodos(data));
   }, [data]);
 
-  const handleCheck = (id, event) => {
-    const todos = data.map((item) => {
-      if (item.id === id) {
-        item.isCompleted = event;
-        return item;
-      }
-      return item;
-    });
+  const handleCheck = async (id, event) => {
+    const todoDocRef = doc(db, 'todo', id);
 
-    setData(todos);
+    try {
+      const found = data.find((item) => item.id === id);
+      await updateDoc(todoDocRef, { ...found, is_completed: event });
+    } catch (error) {
+      alert('An unexpected error was ocurred. Try it again!');
+    }
   };
 
   const handleShow = () => {
     isHidden
-      ? setData(TODOS)
-      : setData(TODOS.filter((item) => !item.isCompleted));
+      ? setTodayTodos(getTodayTodos(data))
+      : setTodayTodos(getTodayTodos(data).filter((item) => !item.isCompleted));
     setIsHidden(!isHidden);
   };
 
