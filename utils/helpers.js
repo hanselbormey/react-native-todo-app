@@ -9,4 +9,16 @@ function isToday(date) {
   return false;
 }
 
-export { isToday };
+function getTodayTodos(data) {
+  return data
+    ?.filter((item) => isToday(item.date))
+    .sort((a, b) => a.isCompleted - b.isCompleted);
+}
+
+function getUpcomingTodos(data) {
+  return data
+    ?.filter((item) => !isToday(item.date))
+    .sort((a, b) => a.isCompleted - b.isCompleted);
+}
+
+export { isToday, getTodayTodos, getUpcomingTodos };
