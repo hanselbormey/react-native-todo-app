@@ -9,6 +9,8 @@ const theme = {
       gray: '#6b7280',
       neutral: '#a3a3a3',
       red: '#ef4444',
+      dark: '#030712',
+      light: '#e5e7eb',
     },
   },
   fontSizes: {
