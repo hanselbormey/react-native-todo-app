@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
 import theme from '../theme';
@@ -26,26 +26,31 @@ export default function TodoItem(props) {
         ></View>
       )}
 
-      <View style={styles.textContainer}>
-        <Text
-          style={
-            props.isCompleted
-              ? [styles.primaryText, styles.underlined]
-              : styles.primaryText
-          }
-        >
-          {props.text}
-        </Text>
-        <Text
-          style={
-            props.isCompleted
-              ? [styles.subheading, styles.underlined]
-              : styles.subheading
-          }
-        >
-          {props.date.toString()}
-        </Text>
-      </View>
+      <TouchableHighlight
+        onLongPress={() => props.onLongPressTodo(props.id)}
+        underlayColor={theme.colors.palette.light}
+      >
+        <View style={styles.textContainer}>
+          <Text
+            style={
+              props.isCompleted
+                ? [styles.primaryText, styles.underlined]
+                : styles.primaryText
+            }
+          >
+            {props.text}
+          </Text>
+          <Text
+            style={
+              props.isCompleted
+                ? [styles.subheading, styles.underlined]
+                : styles.subheading
+            }
+          >
+            {props.date.toString()}
+          </Text>
+        </View>
+      </TouchableHighlight>
     </View>
   );
 }
