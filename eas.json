@@ -1,0 +1,47 @@
+{
+  "cli": {
+    "version": ">= 5.1.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_KEY": "AIzaSyCMOb8l7fXouuitPJvXCxlqAZ0s9cBwq1U",
+        "EXPO_PUBLIC_AUTH_DOMAIN": "todo-app-9beb4.firebaseapp.com",
+        "EXPO_PUBLIC_PROJECT_ID": "todo-app-9beb4",
+        "EXPO_PUBLIC_STORAGE_BUCKET": "todo-app-9beb4.appspot.com",
+        "EXPO_PUBLIC_MESSAGING_SENDER_ID": "542881271855",
+        "EXPO_PUBLIC_APP_ID": "1:542881271855:web:330ba4f392d009f6f5f6da"
+      }
+    },
+    "preview": {
+      "developmentClient": true,
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_KEY": "AIzaSyCMOb8l7fXouuitPJvXCxlqAZ0s9cBwq1U",
+        "EXPO_PUBLIC_AUTH_DOMAIN": "todo-app-9beb4.firebaseapp.com",
+        "EXPO_PUBLIC_PROJECT_ID": "todo-app-9beb4",
+        "EXPO_PUBLIC_STORAGE_BUCKET": "todo-app-9beb4.appspot.com",
+        "EXPO_PUBLIC_MESSAGING_SENDER_ID": "542881271855",
+        "EXPO_PUBLIC_APP_ID": "1:542881271855:web:330ba4f392d009f6f5f6da"
+      }
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_API_KEY": "AIzaSyCMOb8l7fXouuitPJvXCxlqAZ0s9cBwq1U",
+        "EXPO_PUBLIC_AUTH_DOMAIN": "todo-app-9beb4.firebaseapp.com",
+        "EXPO_PUBLIC_PROJECT_ID": "todo-app-9beb4",
+        "EXPO_PUBLIC_STORAGE_BUCKET": "todo-app-9beb4.appspot.com",
+        "EXPO_PUBLIC_MESSAGING_SENDER_ID": "542881271855",
+        "EXPO_PUBLIC_APP_ID": "1:542881271855:web:330ba4f392d009f6f5f6da"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
