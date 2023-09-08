@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from './screens/Home';
 import AddTodo from './screens/AddTodo';
+import theme from './theme';
 
 function SafeArea({ children }) {
   const insets = useSafeAreaInsets();
@@ -21,6 +22,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeArea>
+        <StatusBar backgroundColor={theme.colors.secondary} />
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
