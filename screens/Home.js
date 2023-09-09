@@ -4,11 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { doc, updateDoc } from 'firebase/firestore';
 
-import TodoList from '../components/TodoList';
-import theme from '../theme';
-import { getTodayTodos, getUpcomingTodos, isToday } from '../utils/helpers';
-import useGetTodos from '../hooks/useGetTodos';
 import db from '../lib/firebase';
+import { getTodayTodos, getUpcomingTodos } from '../utils/helpers';
+import useGetTodos from '../hooks/useGetTodos';
+import TodoList from '../components/TodoList';
+import NoData from '../components/NoData';
+import theme from '../theme';
 
 export default function HomeScreen() {
   const [isHidden, setIsHidden] = React.useState(false);
@@ -54,7 +55,12 @@ export default function HomeScreen() {
           </Text>
         </TouchableOpacity>
       </View>
-      <TodoList data={todayTodos} onCheck={handleCheck} />
+      {todayTodos?.length > 0 ? (
+        <TodoList data={todayTodos} onCheck={handleCheck} />
+      ) : (
+        <NoData />
+      )}
+
       <Text style={styles.title}>Upcoming</Text>
       <TodoList data={upcomingTodos} onCheck={handleCheck} />
       <TouchableOpacity
