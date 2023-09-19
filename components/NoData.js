@@ -6,7 +6,7 @@ export default function NoData() {
     <View style={styles.noData}>
       <Image
         style={{ width: 150, height: 150 }}
-        source={require('../assets/relax.png')}
+        source={require('../assets/chilling-man.png')}
       />
       <Text style={styles.title}>Congrats</Text>
       <Text style={styles.text}>You don't have any task, enjoy your day!</Text>
