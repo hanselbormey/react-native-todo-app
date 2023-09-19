@@ -10,6 +10,7 @@ import useGetTodos from '../hooks/useGetTodos';
 import TodoList from '../components/TodoList';
 import NoData from '../components/NoData';
 import theme from '../theme';
+import Loading from '../components/Loading';
 
 export default function HomeScreen() {
   const [isHidden, setIsHidden] = React.useState(false);
@@ -19,7 +20,7 @@ export default function HomeScreen() {
 
   const navigation = useNavigation();
 
-  const { todos: data } = useGetTodos();
+  const { todos: data, loading } = useGetTodos();
 
   React.useEffect(() => {
     setTodayTodos(getTodayTodos(data));
@@ -55,20 +56,36 @@ export default function HomeScreen() {
           </Text>
         </TouchableOpacity>
       </View>
-      {todayTodos?.length > 0 ? (
-        <TodoList data={todayTodos} onCheck={handleCheck} />
+      {loading ? (
+        <Loading />
       ) : (
-        <NoData />
+        <>
+          {todayTodos?.length > 0 ? (
+            <TodoList data={todayTodos} onCheck={handleCheck} />
+          ) : (
+            <NoData />
+          )}
+        </>
       )}
-
       <Text style={styles.title}>Upcoming</Text>
-      <TodoList data={upcomingTodos} onCheck={handleCheck} />
-      <TouchableOpacity
-        style={styles.addBtnContainer}
-        onPress={() => navigation.navigate('Add')}
-      >
-        <AntDesign name="pluscircle" size={38} color="black" />
-      </TouchableOpacity>
+
+      {loading ? (
+        <Loading />
+      ) : upcomingTodos?.length > 0 ? (
+        <TodoList data={upcomingTodos} onCheck={handleCheck} />
+      ) : (
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Image
+            style={{ width: 170, height: 170 }}
+            source={require('../assets/teamwork.png')}
+          />
+        </View>
+      )}
+      <View style={styles.addBtnContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('Add')}>
+          <AntDesign name="pluscircle" size={38} color="black" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -110,5 +127,7 @@ const styles = StyleSheet.create({
   addBtnContainer: {
     flexDirection: 'row-reverse',
     bottom: 14,
+    flex: 1,
+    alignItems: 'flex-end',
   },
 });
