@@ -11,6 +11,7 @@ const theme = {
       red: '#ef4444',
       dark: '#030712',
       light: '#e5e7eb',
+      green: '#86efac',
     },
   },
   fontSizes: {
