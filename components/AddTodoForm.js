@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Pressable,
+  Switch,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -14,6 +15,8 @@ import theme from '../theme';
 export default function AddTodoForm({ onSubmit }) {
   const [text, setText] = React.useState();
   const [date, setDate] = React.useState(new Date());
+  const [isEnabled, setIsEnabled] = React.useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const [mode, setMode] = React.useState('date');
   const [show, setShow] = React.useState(false);
 
@@ -38,10 +41,13 @@ export default function AddTodoForm({ onSubmit }) {
 
   const handleSubmit = () => {
     onSubmit({
-      text,
-      date,
-      created_at: new Date(),
-      is_completed: false,
+      data: {
+        text,
+        date,
+        created_at: new Date(),
+        is_completed: false,
+      },
+      notify: isEnabled,
     });
   };
 
@@ -59,7 +65,7 @@ export default function AddTodoForm({ onSubmit }) {
       <View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.label}>selected: </Text>
+            <Text style={styles.label}>Selected: </Text>
             <Text>{date.toLocaleString()}</Text>
           </View>
 
@@ -81,6 +87,18 @@ export default function AddTodoForm({ onSubmit }) {
             onChange={onChange}
           />
         )}
+        <View style={styles.alertContainer}>
+          <Text style={styles.label}>Alert</Text>
+          <Switch
+            trackColor={{
+              true: theme.colors.palette.cyan,
+            }}
+            thumbColor={theme.colors.palette.light}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />
+        </View>
       </View>
 
       <TouchableOpacity onPress={handleSubmit} style={styles.btn}>
@@ -101,10 +119,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 24,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   label: {
     color: theme.colors.default,
+    fontSize: theme.fontSizes.subheading,
+    fontWeight: '500',
   },
   btn: {
     borderColor: theme.colors.default,
@@ -122,5 +142,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.palette.light,
     padding: 10,
     borderRadius: 8,
+  },
+  alertContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
