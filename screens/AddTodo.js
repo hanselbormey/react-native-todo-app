@@ -48,9 +48,10 @@ export default function AddTodo() {
     };
   }, []);
 
-  const handleAdd = async (todo) => {
+  const handleAdd = async (payload) => {
+    const { data: todo, notify } = payload;
     const docRef = await addDoc(collection(db, 'todo'), todo);
-    schedulePushNotification(todo);
+    notify ? schedulePushNotification(todo) : null;
     navigation.goBack();
   };
 
